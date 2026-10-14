@@ -9,6 +9,9 @@ M2	Diseño del modelo relacional: las tablas del proyecto	Entregado en la plataf
 M3	Checkpoint: creación de la base Ventas_Tech_DB	RetailPro/ventas_tech_db.sql	SQL Server (SSMS)
 M4	Pre-entrega: consultas SQL de negocio	RetailPro/m4_consultas_negocio.sql	SQL Server (SSMS)
 M5	Pre-entrega: consultas con JOINs	RetailPro/m5_consultas_joins.sql	SQL Server (SSMS)
+M6	Práctica: Pipeline ETL	PowerBI/Pipeline_ETL_Zanotti_Mauricio.pbix	Power BI (Power Query)
+M7	Pre-entrega: boceto del dashboard	Entregado en la plataforma (PNG)	—
+M7	Checkpoint 2: modelo, calendario y medidas DAX	PowerBI/Zanotti_Mauricio_Checkpoint2.pbix	Power BI (DAX)
 Detalle
 M3 · Ventas_Tech_DB
 
@@ -33,6 +36,15 @@ Consolidado por origen (UNION ALL) con una columna de texto creada en cada SELEC
 
 Incluye al inicio un cliente y un producto de prueba sin movimientos, para que las consultas 2 y 3 devuelvan resultados.
 
+Pipeline ETL (Power Query)
+
+Cuatro consultas con nomenclatura Dim_ / Fact_: Dim_Clientes (11 filas), Dim_Productos (12), Dim_Categorias (4) y Fact_Ventas (50). Se eliminan filas vacías y duplicados por clave, se corrigen tipos, se tratan los nulos (email y ciudad a "Sin datos", precio imputado, categoría asignada) y se combina Fact_Ventas con Dim_Productos.
+
+Checkpoint 2 · Modelo de datos y DAX
+Modelo estrella con cuatro relaciones 1:N de dirección única: Dim_Clientes, Dim_Productos y Dim_Fechas hacia Fact_Ventas, y Dim_Categorias hacia Dim_Productos (se agregó id_categoria a Dim_Productos con un Merge por nombre).
+Dim_Fechas creada con CALENDAR, con columnas Año, Mes Número, Mes Nombre (ordenado por Mes Número), Trimestre y Semana, y marcada como tabla de fechas.
+Tabla _Medidas con cinco medidas: Total Ventas, Ventas Online (CALCULATE), Ventas YTD (TOTALYTD), Ventas LY (SAMEPERIODLASTYEAR) y % Crecimiento Anual (VAR + DIVIDE).
+Página Validación con una matriz Mes × Año: el YTD acumula mes a mes, Ventas LY queda en blanco en 2023 y en 2024 muestra los valores de 2023. Crecimiento enero–julio 2024 vs. 2023: 44,43%.
 Cómo ejecutar los scripts
 Abrir SQL Server Management Studio y conectarse al servidor local.
 Ejecutar primero RetailPro/ventas_tech_db.sql, que crea la base y carga los datos.
